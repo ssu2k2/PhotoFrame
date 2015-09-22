@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="kr.pnit.mPhoto" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="kr.pnit.mPhoto.loading.Loading"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="kr.pnit.mPhoto.loading.Join"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustUnspecified"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.main.Main"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.order.OrderMain"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.order.OrderAlbum"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.order.OrderGrid"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.order.OrderInfoInput"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.order.OrderPayProcess"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.order.OrderList"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.order.OrderProcessDialog"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.Dialog.SendImageActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="kr.pnit.mPhoto.Dialog.AddressActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name="kr.pnit.mPhoto.Dialog.ImageViewActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+
+
+        <activity
+            android:name="kr.pnit.mPhoto.PhotoSelector.PhotoSelectorActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+
+
+    </application>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+</manifest>

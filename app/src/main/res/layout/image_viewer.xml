@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#cc2b3b"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:src="@drawable/btn_prev_btn"
+            android:background="@android:color/transparent"
+            android:id="@+id/btnPre"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="이미지 확인 "
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            />
+        <ImageButton
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:src="@drawable/btn_order_btn02"
+            android:background="@android:color/transparent"
+            android:id="@+id/btnOrder"/>
+    </LinearLayout>
+
+    <kr.pnit.mPhoto.Dialog.HackyViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+</LinearLayout>

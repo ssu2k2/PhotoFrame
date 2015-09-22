@@ -1,0 +1,230 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#cc2b3b"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnPre"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/btn_prev_btn" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/title_orderalbum"
+            android:textColor="#ffffff"
+            android:textSize="20dp" />
+
+        <ImageButton
+            android:id="@+id/btnOrder"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/btn_order_btn02" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/llPhotoFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llTemplete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/template_bg"
+            android:orientation="horizontal"
+            android:paddingLeft="100dp">
+
+            <HorizontalScrollView
+                android:id="@+id/hsvFrame"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+                <LinearLayout
+                    android:id="@+id/llFrameSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnTemp01"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/template01_thumnail" />
+
+                    <Button
+                        android:id="@+id/btnTemp02"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/template02_thumnail" />
+
+                    <Button
+                        android:id="@+id/btnTemp03"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/template03_thumnail" />
+
+                    <Button
+                        android:id="@+id/btnTemp04"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/template04_thumnail" />
+
+                    <Button
+                        android:id="@+id/btnTemp05"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="6dp"
+                        android:background="@drawable/template05_thumnail" />
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llicons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/icon_bg"
+            android:orientation="horizontal"
+            android:paddingLeft="100dp">
+
+            <HorizontalScrollView
+                android:id="@+id/hsvicon"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+                <LinearLayout
+                    android:id="@+id/llFrameicon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnVFPre"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:src="@drawable/btn_prevarrow"
+                />
+
+            <ViewFlipper
+                android:id="@+id/vfPhotoFrame"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></ViewFlipper>
+
+            <ImageButton
+                android:id="@+id/btnVFNext"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:src="@drawable/btn_nextarrow"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvPageCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:text="10페이지중 2페이지"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/menu_bar02"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            >
+            <Button
+                android:id="@+id/btnAutoSelect"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_autoedit"
+                android:clickable="true"/>
+            <TextView
+                android:id="@+id/tvAutoSelectInfo"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:text="@string/auto_edit"
+                android:gravity="center"
+                android:textSize="11sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:id="@+id/btnSelectPhoto"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_loadimg"
+                android:clickable="true" />
+
+            <HorizontalScrollView
+                android:id="@+id/hsvPhoto"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/llPhotoSelect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"></LinearLayout>
+            </HorizontalScrollView>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

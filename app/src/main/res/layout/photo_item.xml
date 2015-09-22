@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:id="@+id/llPhotoItem"
+    android:clickable="true"
+    android:layout_gravity="center"
+    android:orientation="horizontal">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/imgloadin"
+            android:id="@+id/ivImage"
+            android:scaleType="fitCenter"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="#88ffffff"
+            android:id="@+id/ivMask"
+            android:visibility="gone"
+            android:scaleType="fitCenter"/>
+    </FrameLayout>
+
+
+</LinearLayout>

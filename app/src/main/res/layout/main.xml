@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/selectmenu_bg"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/main_menu_select"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="135dp"
+            android:layout_height="135dp"
+            android:background="@drawable/btn_order"
+            android:id="@+id/btnOrder"
+            android:layout_marginRight="30dp" />
+        <Button
+            android:layout_width="135dp"
+            android:layout_height="135dp"
+            android:id="@+id/btnOrdList"
+            android:background="@drawable/btn_orderlist"
+            />
+
+
+        </LinearLayout>
+
+
+
+</LinearLayout>
