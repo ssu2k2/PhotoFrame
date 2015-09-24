@@ -34,6 +34,7 @@ public class AlbumInfo implements Serializable {
     public int resolution_W;
     public int resolution_H;
 
+    public String inwha_yn;
     public String sub_code;
     public String sub_name;
     public String sub_imgURL;

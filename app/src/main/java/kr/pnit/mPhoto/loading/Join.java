@@ -204,7 +204,7 @@ public class Join extends BaseActivity implements View.OnClickListener{
             if(result.indexOf("{") > 0) {
                 String r = result.substring(result.indexOf("{"));
                 if( r.length() > 0) {
-                    //Log.d(TAG, "Result(JSON):" + r);
+                    Log.d(TAG, "Result(JSON):" + r);
                     if(mode == MODE_GET_MSG){
                         parseGetMsg(r);
                         mode = MODE_LOG_IN;

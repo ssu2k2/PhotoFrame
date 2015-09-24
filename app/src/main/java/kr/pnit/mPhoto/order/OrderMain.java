@@ -258,10 +258,11 @@ public class OrderMain extends BaseActivity {
                         album.resolution_W = Integer.parseInt(jObj.getString("resolution_W"));
                         album.resolution_H = Integer.parseInt(jObj.getString("resolution_H"));
 
+                        album.inwha_yn = "Y" ;//jObj.getString("inwha_yn");
                         album.title = jObj.getString("product_name");
                         album.price = Integer.parseInt(jObj.getString("product_price"));
                         album.imgURL = jObj.getString("product_img_url");
-                        album.deliver_num = Integer.parseInt(jObj.getString("product_deliver"));
+                        album.deliver_num = 30000;//Integer.parseInt(jObj.getString("product_deliver"));
                         album.maxPage = Integer.parseInt(jObj.getString("product_Page"));
 
                         if(album.edit_gubun  == 3)
@@ -299,6 +300,7 @@ public class OrderMain extends BaseActivity {
                         album.imgURL = SelectedAlbum.imgURL;
                         album.deliver_num = SelectedAlbum.deliver_num;
                         album.maxPage = SelectedAlbum.maxPage;
+                        album.inwha_yn = SelectedAlbum.inwha_yn;
 
                         album.sub_code = jObj.getString("product_code_no");
                         album.sub_name = jObj.getString("product_name");
@@ -350,7 +352,7 @@ public class OrderMain extends BaseActivity {
             if(result.indexOf("{") > 0) {
                 String r = result.substring(result.indexOf("{"));
                 if( r.length() > 0) {
-                    //Log.d(TAG, "Result(JSON):" + r);
+                    Log.d(TAG, "Result(JSON):" + r);
                     parseJson(r);
                     return;
                 }

@@ -19,6 +19,7 @@ public class Define {
 
     public static final String HTTP_ORDER_PRODUCT = HTTP_URL + "/order/order_Mobile_ok.asp";
     public static final String HTTP_DECO_ICON = HTTP_URL + "/member/Mobile_icon_list.asp";
+    public static final String HTTP_FTP_INFO = HTTP_URL + "/member/Mobile_FTP_ok.asp";
 
     public static final String HTTP_ZIP_CODE_01 = HTTP_URL + "/member/Mobile_zipcode_one.asp";
     public static final String HTTP_ZIP_CODE_02 = HTTP_URL + "/member/Mobile_zipcode_two.asp";

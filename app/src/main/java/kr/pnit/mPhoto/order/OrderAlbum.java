@@ -556,6 +556,8 @@ public class OrderAlbum extends BaseActivity implements View.OnClickListener {
         intent.putExtra("AlbumCode", albumInfo.code);
         intent.putExtra("AlbumSubCode", albumInfo.sub_code);
 
+        intent.putExtra("inwha_yn", albumInfo.inwha_yn);
+
         intent.putExtra("AlbumDeliverNum", ""+albumInfo.deliver_num);
 
         intent.putExtra("AlbumPrice", albumInfo.price);

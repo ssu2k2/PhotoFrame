@@ -1,20 +1,26 @@
 package kr.pnit.mPhoto.Dialog;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import kr.pnit.mPhoto.DTO.FrameInfo;
 import kr.pnit.mPhoto.DTO.OrderInfo;
+import kr.pnit.mPhoto.DTO.SendFileInfo;
 import kr.pnit.mPhoto.Define.Define;
+import kr.pnit.mPhoto.Network.ParamVO;
 import kr.pnit.mPhoto.R;
 
 import kr.pnit.mPhoto.Utils.FileUtils;
+import kr.pnit.mPhoto.albummaker.PhotoAdder;
 import kr.pnit.mPhoto.main.BaseActivity;
 import kr.pnit.mPhoto.order.OrderPayProcess;
 
@@ -23,6 +29,8 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,21 +71,14 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
     String product_name;
     String agent_name;
     String user_name;
+    String inwha_yn;
 
     OrderInfo mOrderInfo = null;
 
     ArrayList<SendFileInfo> alSendFileInfo;
     boolean isCompleteTransfer = false;
-    public class SendFileInfo {
-        boolean isComplete;
-        long size;
-        String path;
-        SendFileInfo(String path, long size) {
-            this.size = size;
-            this.path = path;
-            isComplete = false;
-        }
-    }
+
+    ProgressDialog photoMakerdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,33 +90,96 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
         sbStatus = new StringBuilder();
 
         Intent intent = getIntent();
-        Serializable intentListData = intent.getSerializableExtra("ALFrameInfo");
 
         albumTitle = intent.getStringExtra("AlbumTitle");
         albumCode = intent.getStringExtra("AlbumCode");
         albumSubCode = intent.getStringExtra("AlbumSubCode");
 
+        inwha_yn  = intent.getStringExtra("inwha_yn");
+
         user_name = intent.getStringExtra("UserName");
         albumPrice = getIntent().getIntExtra("AlbumPrice", 0);
-
         agent_name = getStringPreference(Define.KEY_PRE_NAME);
 
-
+        Serializable intentListData = intent.getSerializableExtra("ALFrameInfo");
         alFrameList = (ArrayList<FrameInfo>) intentListData;
 
         mOrderInfo = (OrderInfo) intent.getSerializableExtra("OrderInfo");
+
+        initLayout();
+
+        tvSize.setText("이미지 변환 작업중...");
+        btnSend.setEnabled(false);
+
+        prepareNetworking(Define.HTTP_FTP_INFO, "GET");
+
+    }
+    private void StartimageProcss() {
+        Log.d(TAG, "Inwha : " + inwha_yn);
+        if(inwha_yn != null && inwha_yn.length() == 1){
+            if(inwha_yn.toUpperCase().equals("N")){
+                // Nothing
+                setImageFIleInfo();
+            } else if(inwha_yn.toUpperCase().equals("Y")){
+                // 이미지 합치기 작업 수행
+
+                photoMakerdialog = ProgressDialog.show(SendImageActivity.this, "", "사진 변환 중입니다.", true);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ImageConvertingProcess();
+                        new Handler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                photoMakerdialog.dismiss();
+                                btnSend.setEnabled(true);
+                                tvSize.setText(FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes");
+                            }
+                        });
+                    }
+                }).run();
+                photoMakerdialog.show();
+            }
+        } else {
+            setImageFIleInfo();
+        }
+    }
+    private boolean ImageConvertingProcess(){
+        Log.d(TAG, "RUN ImageConvertingProcess()");
+        PhotoAdder photoAdder = new PhotoAdder(SendImageActivity.this, alFrameList);
+        if(photoAdder.startPhotoMaker()){
+
+            ArrayList<String> alResult = photoAdder.getResultFileInfo();
+            alSendFileInfo.clear();
+            for(int i = 0; i < alResult.size(); i++) {
+                if(alResult.get(i) != null){
+                    alSendFileInfo.add(new SendFileInfo(alResult.get(i), getFileInfo(alResult.get(i))));
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    private void setImageFIleInfo() {
 
         //Log.d(TAG, "Get Photo Data : " + alFrameList.size());
         for(int i = 0; i < alFrameList.size(); i++) {
             //Log.d(TAG, "Image Info :" + alFrameList.get(i).pageImage);
             //Log.d(TAG, "Image Size :" + getFileInfo(alFrameList.get(i).pageImage));
-            if(alFrameList.get(i).isConvert)
+            if(alFrameList.get(i).isConvert){
                 alSendFileInfo.add(new SendFileInfo(alFrameList.get(i).pageImage, getFileInfo(alFrameList.get(i).pageImage)));
+
+            }
         }
         //Log.d(TAG, "Total Size :" + FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes " + alSendFileInfo.size() + " Files");
-        initLayout();
-
+        tvSize.setText(FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes");
+        btnSend.setEnabled(true);
+        //tvPath.setText(ServerPath);
     }
+
     private final int GOTO_ORDERINPUT = 0x10;
     private final int GOTO_PAYPROCESS = 0x11;
 
@@ -174,13 +238,7 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
         }
         return 0;
     }
-    private void SendImageToServer() {
-        String[] params = new String[]{
-                "book208.fotokids.co.kr", "8081", "mobile_photo", "mobile_photo1030", ServerPath
-        };
-        FtpTransferTask ftpTransferTask = new FtpTransferTask();
-        ftpTransferTask.execute(params);
-    }
+
     private void addStatusString(String string) {
         sbStatus.append(string).append("\n");
         tvStatus.setText(sbStatus.toString());
@@ -195,9 +253,6 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
         btnCancel.setOnClickListener(this);
         btnCancel.setEnabled(false);
         btnCancel.setVisibility(View.GONE);
-
-        tvSize.setText(FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes");
-        //tvPath.setText(ServerPath);
 
         iBtnOrder = (ImageButton) findViewById(R.id.btnOrder);
         iBtnOrder.setOnClickListener(new View.OnClickListener() {
@@ -218,6 +273,54 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
         addStatusString("전송 준비중입니다.");
     }
     boolean isBreak = false;
+    private void SendImageToServer() {
+        String[] params = new String[]{
+                ftpURL,ftpPort, ftpId, ftpPw, ServerPath
+        };
+        FtpTransferTask ftpTransferTask = new FtpTransferTask();
+        ftpTransferTask.execute(params);
+    }
+    @Override
+    public void makeParams() {
+        alParam.clear();
+    }
+    String ftpURL= "book208.fotokids.co.kr";
+    String ftpId = "mobile_photo";
+    String ftpPw = "mobile_photo1030";
+    String ftpPort = "8081";
+
+    private boolean parseInfo(String json) {
+        try{
+            JSONObject j = new JSONObject(json);
+            if(j.getString("RESULT").equals("SUCCESS")) {
+                ftpURL =  j.getString("FTP_URL");
+                ftpId =  j.getString("FTP_ID");
+                ftpPw =  j.getString("FTP_PSWD");
+                ftpPort =  j.getString("FTP_PORT");
+                return true;
+            } else {
+                return false;
+            }
+        }catch(JSONException j) {
+            Log.d(TAG, "JSON Exception " + j.getMessage());
+            return true;
+        }
+    }
+    @Override
+    public void parseResult(String result) {
+        if(result.startsWith("SUCCESS:")){
+            if(result.indexOf("{") > 0) {
+                String r = result.substring(result.indexOf("{"));
+                if( r.length() > 0) {
+                    //Log.d(TAG, "Result(JSON):" + r);
+                    parseInfo(r);
+                    StartimageProcss();
+                }
+            }
+        }
+
+
+    }
 
     private class FtpTransferTask extends AsyncTask<String , Integer , String> {
         FTPClient mFtpClient;

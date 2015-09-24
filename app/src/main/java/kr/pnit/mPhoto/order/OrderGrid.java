@@ -340,6 +340,7 @@ public class OrderGrid extends Activity implements View.OnClickListener{
 
         intent.putExtra("AlbumDeliverNum", ""+albumInfo.deliver_num);
 
+        intent.putExtra("inwha_yn", albumInfo.inwha_yn);
         intent.putExtra("AlbumPrice", albumInfo.price);
         intent.putExtra("ALFrameInfo", alFrameInfo);
 

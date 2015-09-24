@@ -74,7 +74,7 @@ public class ImageViewActivity extends BaseActivity {
     int albumType;
     String agent_name;
     String user_name;
-
+    String inwha_yn;
     ArrayList<Uri> alImageUri;
     ArrayList<String> alImagePath;
     private class MultiMediaScanner implements MediaScannerConnection.MediaScannerConnectionClient {
@@ -141,13 +141,14 @@ public class ImageViewActivity extends BaseActivity {
         albumSubCode = getIntent().getStringExtra("AlbumSubCode");
         albumDeliverNum = getIntent().getStringExtra("AlbumDeliverNum");
 
+        inwha_yn = getIntent().getStringExtra("inwha_yn");
+
         user_name = intent.getStringExtra("UserName");
         albumPrice = getIntent().getIntExtra("AlbumPrice", 0);
 
         albumType = getIntent().getIntExtra("AlbumType", Define.TYPE_NORMAL);
 
         agent_name = getStringPreference(Define.KEY_PRE_NAME);
-
         alFrameList = (ArrayList<FrameInfo>) intentListData;
         alImageUri = new ArrayList<Uri>();
         alImagePath = new ArrayList<String>();
@@ -207,6 +208,8 @@ public class ImageViewActivity extends BaseActivity {
         intent.putExtra("AlbumPrice", albumPrice);
         intent.putExtra("ALFrameInfo", alFrameList);
         intent.putExtra("AlbumType", albumType);
+        intent.putExtra("inwha_yn", inwha_yn);
+
         startActivityForResult(intent, GOTO_ORDERINPUT);
     }
 

@@ -68,6 +68,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
     String zip_code;
     String address;
     String orderNumber;
+    String inwha_yn;
     int Album_price;
 
     String user_name = "";
@@ -111,6 +112,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
         Shop_Zip = getStringPreference(Define.KEY_OW_ZIP);
         Shop_Addr = getStringPreference(Define.KEY_OW_ADDR);
 
+        inwha_yn = getIntent().getStringExtra("inwha_yn");
         Album_Title = getIntent().getStringExtra("AlbumTitle");
         Album_code = getIntent().getStringExtra("AlbumCode");
         Album_sub_code = getIntent().getStringExtra("AlbumSubCode");
@@ -320,6 +322,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
         try {
             int del_price = 0;
             Album_num = Integer.parseInt(edtGoodsNum.getText().toString());
+
             alParam.add(new ParamVO("P_No", edtGoodsNum.getText().toString()));
 
             mOrderInfo.setUserInfo( edtCustomerName.getText().toString(),
@@ -344,7 +347,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
         intent.putExtra("AlbumPrice", Album_price);
         intent.putExtra("ALFrameInfo", alFrameList);
         intent.putExtra("OrderInfo", mOrderInfo);
-
+        intent.putExtra("inwha_yn", inwha_yn);
         startActivityForResult(intent, GOTO_SEND_IMAGE);
     }
 
