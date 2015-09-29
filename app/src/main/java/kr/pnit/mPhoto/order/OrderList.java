@@ -44,6 +44,7 @@ public class OrderList extends BaseActivity implements View.OnClickListener {
     String order_name = null;
     String order_hp = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +82,11 @@ public class OrderList extends BaseActivity implements View.OnClickListener {
         final EditText edtName = (EditText)layout.findViewById(R.id.edtCustomerName);
         final EditText edtHP = (EditText)layout.findViewById(R.id.edtCustomerHp);
         final Button btnCompelte = (Button)layout.findViewById(R.id.btnComplete);
+
+        order_name = getStringPreference(Define.PREF_USER_NAME);
+        if(order_name.length() > 0) edtName.setText(order_name);
+        order_hp = getStringPreference(Define.PREF_USER_TEL);
+        if(order_hp.length() > 0) edtHP.setText(order_hp);
 
         builder = new AlertDialog.Builder(this);
         builder.setView(layout);

@@ -39,6 +39,11 @@ public class Define {
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_GRID = 1;
 
+    //Preference
+    public static final String PREF_USER_NAME = "user_name";
+    public static final String PREF_USER_TEL  = "user_tel";
+    public static final String PREF_USER_ADDR = "user_addr";
+    public static final String PREF_ZIP_CODE = "zip_code";
 
     public static final boolean isDebugging = false;
 }

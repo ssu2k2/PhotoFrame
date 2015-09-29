@@ -112,6 +112,8 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
         Shop_Zip = getStringPreference(Define.KEY_OW_ZIP);
         Shop_Addr = getStringPreference(Define.KEY_OW_ADDR);
 
+
+
         inwha_yn = getIntent().getStringExtra("inwha_yn");
         Album_Title = getIntent().getStringExtra("AlbumTitle");
         Album_code = getIntent().getStringExtra("AlbumCode");
@@ -149,12 +151,26 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
 
         edtAgentName = (EditText)findViewById(R.id.edtAgentName);
         edtAgentPhone = (EditText)findViewById(R.id.edtPhone);
+
         edtCustomerName = (EditText)findViewById(R.id.edtCustomerInfo);
         edtCustomerPhone = (EditText)findViewById(R.id.edtPhone2);
-
         tvCustomerAddress = (TextView)findViewById(R.id.tvAddress);
-        tvTotalPrice = (TextView)findViewById(R.id.tvTotPrice);
 
+        user_name = getStringPreference(Define.PREF_USER_NAME);
+        if(user_name.length() > 0) edtCustomerName.setText(user_name);
+
+        user_phone = getStringPreference(Define.PREF_USER_TEL);
+        if(user_phone.length() > 0) edtCustomerPhone.setText(user_phone);
+
+        user_addr = getStringPreference(Define.PREF_USER_ADDR);
+        zip_code = getStringPreference(Define.PREF_ZIP_CODE);
+        if(user_addr.length() > 0){
+            tvCustomerAddress.setText(user_addr);
+            isAddressComplete = true;
+        }
+
+
+        tvTotalPrice = (TextView)findViewById(R.id.tvTotPrice);
         edtGoods = (EditText)findViewById(R.id.edtGoods);
         edtGoodsNum = (EditText)findViewById(R.id.edtGoodsNum);
 
@@ -298,6 +314,13 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
                     //if(radioGroup.getCheckedRadioButtonId() == R.id.rbhome) {
                         if(edtCustomerName.getText().toString().trim().length() > 1 &
                                 edtCustomerPhone.getText().toString().trim().length() > 6 ){
+                            user_name = edtCustomerName.getText().toString().trim();
+                            user_phone = edtCustomerPhone.getText().toString().trim();
+                            saveStringPreference(Define.PREF_USER_NAME, user_name);
+                            saveStringPreference(Define.PREF_USER_TEL, user_phone);
+                            saveStringPreference(Define.PREF_USER_ADDR, user_addr);
+                            saveStringPreference(Define.PREF_ZIP_CODE, zip_code);
+
                             prepareNetworking(Define.HTTP_ORDER_PRODUCT, "GET");
                         } else {
                             Toast.makeText(this, "사용자 정보(이름,전화번호)를 정확하게 입력해 주세요.", Toast.LENGTH_LONG).show();
@@ -386,13 +409,12 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
                 //GoToPayProcess();
                 orderNumber = jObject.getString("order_sum_id");
                 saveStringPreference(Define.KEY_CUPON_NUM, "");
-
                 goToSendImage();
             } else {
                 Toast.makeText(this, "주문 전송에 실패하였습니다.", Toast.LENGTH_LONG).show();
             };
         }catch(JSONException je) {
-
+            Toast.makeText(this, "서버에서 주문 응답에 에 실패하였습니다.", Toast.LENGTH_LONG).show();
         }
     }
     @Override
@@ -448,7 +470,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
             if(result.indexOf("{") > 0) {
                 String r = result.substring(result.indexOf("{"));
                 if( r.length() > 0) {
-                    //Log.d(TAG, "Result(JSON):" + r);
+                    Log.d(TAG, "Result(JSON):" + r);
                     parseJson(r);
                     return;
                 }
