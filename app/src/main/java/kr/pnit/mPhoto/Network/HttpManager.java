@@ -93,8 +93,8 @@ public class HttpManager {
 		for (ParamVO param : alParam) {
 			parameterList.add(new BasicNameValuePair(param.getKEY(), param
 					.getVALUE()));
-			//Log.d(CLASSNAME,
-			//		"PARAMS :" + param.getKEY() + " " + param.getVALUE());
+//			Log.d(CLASSNAME,
+//					"PARAMS :" + param.getKEY() + " " + param.getVALUE());
 		}
 		return parameterList;
 	}
@@ -181,8 +181,9 @@ public class HttpManager {
 			}
 		}
 		try {
-            //Log.d(CLASSNAME, "URL:" + sb.toString());
+
             String url = sb.toString().replaceAll(" ", "%20");
+			//Log.d(CLASSNAME, "URL:" + url);
 			request.setURI(new URI(url));
 			HttpResponse httpResponse = client.execute(request);
 			httpEntity = httpResponse.getEntity();

@@ -109,7 +109,7 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
         initLayout();
 
         tvSize.setText("이미지 변환 작업중...");
-        btnSend.setEnabled(false);
+        btnSend.setVisibility(View.INVISIBLE);
 
         prepareNetworking(Define.HTTP_FTP_INFO, "GET");
 
@@ -117,10 +117,10 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
     private void StartimageProcss() {
         Log.d(TAG, "Inwha : " + inwha_yn);
         if(inwha_yn != null && inwha_yn.length() == 1){
-            if(inwha_yn.toUpperCase().equals("N")){
+            if(inwha_yn.toUpperCase().equals("Y")){
                 // Nothing
                 setImageFIleInfo();
-            } else if(inwha_yn.toUpperCase().equals("Y")){
+            } else if(inwha_yn.toUpperCase().equals("N")){
                 // 이미지 합치기 작업 수행
 
                 photoMakerdialog = ProgressDialog.show(SendImageActivity.this, "", "사진 변환 중입니다.", true);
@@ -132,7 +132,7 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
                             @Override
                             public void run() {
                                 photoMakerdialog.dismiss();
-                                btnSend.setEnabled(true);
+                                btnSend.setVisibility(View.VISIBLE);
                                 tvSize.setText(FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes");
                             }
                         });

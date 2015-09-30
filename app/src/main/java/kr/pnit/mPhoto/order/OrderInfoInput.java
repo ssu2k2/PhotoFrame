@@ -66,7 +66,6 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
     int Album_num;
     int Cupon_num;
     String zip_code;
-    String address;
     String orderNumber;
     String inwha_yn;
     int Album_price;
@@ -188,7 +187,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
             edtGoodsNum.setText("" + alFrameList.size());
             edtGoodsNum.setClickable(false);
             edtGoodsNum.setEnabled(false);
-            if(Album_num >= albumDeliverNum) mOrderInfo.delevery_price = 0;
+            if((Album_price * Album_num) >= albumDeliverNum) mOrderInfo.delevery_price = 0;
         } else {
             Album_num = 1;
             Cupon_num = 0;
@@ -198,11 +197,11 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
         radioGroup = (RadioGroup)findViewById(R.id.rgDelivery);
         radioGroup.check(R.id.rbhome);
 
-        if(albumDeliverNum > 0){
-            String sInfo = String.format("집으로 받기(2~3일 소요, 택배비 2500원 발생) <br><font color=\'red\'>%d권이상 주문 시 배송비 무료입니다.</font>", albumDeliverNum);
+        if((Album_price * Album_num) >= albumDeliverNum ){
+            String sInfo = String.format("집으로 받기(2~3일 소요, 택배비 0원 발생)");
             ((RadioButton)findViewById(R.id.rbhome)).setText(Html.fromHtml(sInfo));
         } else {
-            String sInfo = String.format("집으로 받기(2~3일 소요, 택배비 2500원 발생)");
+            String sInfo = String.format("집으로 받기(2~3일 소요, 택배비 2500원 발생) <br><font color=\'red\'>%d원 이상 주문 시 배송비 무료입니다.</font>", albumDeliverNum);
             ((RadioButton)findViewById(R.id.rbhome)).setText(Html.fromHtml(sInfo));
         }
 
@@ -225,7 +224,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
             public void afterTextChanged(Editable s) {
                 if(edtGoodsNum.getText().length() > 0) {
                     Album_num = Integer.parseInt(edtGoodsNum.getText().toString());
-                    if((albumDeliverNum != 0) & (albumDeliverNum <= (Album_num  - Cupon_num))){
+                    if((albumDeliverNum != 0) & (albumDeliverNum <= ((Album_num  - Cupon_num) * Album_price))){
                         mOrderInfo.delevery_price = 0;
                         tvTotalPrice.setText("총 결제하실 상품의 가격: " + makeStringComma("" + mOrderInfo.good_price * (Album_num  - Cupon_num)) + "원" );
                     } else {
@@ -256,7 +255,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
                         tvCustomerAddress.setText(user_addr);
                     }
 
-                    if((albumDeliverNum != 0) & (albumDeliverNum <= (Album_num  - Cupon_num))){
+                    if((albumDeliverNum != 0) & (albumDeliverNum <= ((Album_num  - Cupon_num) * Album_price))){
                         mOrderInfo.delevery_price = 0;
                         tvTotalPrice.setText("총 결제하실 상품의 가격: " + makeStringComma("" + mOrderInfo.good_price * (Album_num  - Cupon_num)) + "원" );
                     } else {
@@ -350,7 +349,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
 
             mOrderInfo.setUserInfo( edtCustomerName.getText().toString(),
                                     edtCustomerPhone.getText().toString() ,
-                                    address);
+                                    user_addr);
 
             mOrderInfo.setAgentInfo(mOrderInfo.agent_name, mOrderInfo.agent_phone);            // 대리점 정보 추가 : 대리점 이름, 대리점 전화번호
 
@@ -395,9 +394,9 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
         } else if(requestCode == GOTO_ZIPCODE) {
             if(resultCode == RESULT_OK) {
                 zip_code = data.getStringExtra("ZIP_CODE");
-                address = data.getStringExtra("ADDRESS");
-                //Log.d(TAG, "Get Address :" + address + " " + zip_code);
-                tvCustomerAddress.setText(address);
+                user_addr = data.getStringExtra("ADDRESS");
+                //Log.d(TAG, "Get Address :" + user_addr + " " + zip_code);
+                tvCustomerAddress.setText(user_addr);
                 isAddressComplete = true;
             }
         }
@@ -434,7 +433,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
         String zip[];
         if(radioGroup.getCheckedRadioButtonId() == R.id.rbhome) {
             alParam.add(new ParamVO("order_p", "집"));
-            alParam.add(new ParamVO("addr", address));
+            alParam.add(new ParamVO("addr", user_addr));
             zip = zip_code.split("-");
         }else {
             alParam.add(new ParamVO("order_p", "대리점"));

@@ -258,11 +258,11 @@ public class OrderMain extends BaseActivity {
                         album.resolution_W = Integer.parseInt(jObj.getString("resolution_W"));
                         album.resolution_H = Integer.parseInt(jObj.getString("resolution_H"));
 
-                        album.inwha_yn = "Y" ;//jObj.getString("inwha_yn");
+                        album.inwha_yn = jObj.getString("inwha_yn");
                         album.title = jObj.getString("product_name");
                         album.price = Integer.parseInt(jObj.getString("product_price"));
                         album.imgURL = jObj.getString("product_img_url");
-                        album.deliver_num = 30000;//Integer.parseInt(jObj.getString("product_deliver"));
+                        album.deliver_num = Integer.parseInt(jObj.getString("product_deliver"));
                         album.maxPage = Integer.parseInt(jObj.getString("product_Page"));
 
                         if(album.edit_gubun  == 3)
