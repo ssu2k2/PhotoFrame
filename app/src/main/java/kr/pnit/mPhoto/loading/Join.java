@@ -68,7 +68,7 @@ public class Join extends BaseActivity implements View.OnClickListener{
         etShopCode = (EditText)findViewById(R.id.etShop);
         etCupon = (EditText)findViewById(R.id.etCupon);
 
-        saveStringPreference(Define.KEY_CUPON_NUM,   "");       // Clear Cupon Number
+        saveStringPreference(Define.KEY_CUPON,   "");       // Clear Cupon Number
         saveStringPreference(Define.KEY_CUPON_PRODUCT,   "");   // Clear Cupon Number
 
         id = getStringPreference(Define.KEY_PRE_ID);
@@ -171,10 +171,10 @@ public class Join extends BaseActivity implements View.OnClickListener{
                 saveStringPreference(Define.KEY_OW_ZIP,   j.getString(Define.KEY_OW_ZIP));
                 saveStringPreference(Define.KEY_OW_ADDR,   j.getString(Define.KEY_OW_ADDR));
 
-                if(j.getString(Define.KEY_CUPON_NUM) != null)
-                    saveStringPreference(Define.KEY_CUPON_NUM,   j.getString(Define.KEY_CUPON_NUM));
+                if(j.getString(Define.KEY_CUPON) != null)
+                    saveStringPreference(Define.KEY_CUPON,   j.getString(Define.KEY_CUPON));
                 else
-                    saveStringPreference(Define.KEY_CUPON_NUM,   "");
+                    saveStringPreference(Define.KEY_CUPON,   "");
 
                 if(j.getString(Define.KEY_CUPON_PRODUCT) != null)
                     saveStringPreference(Define.KEY_CUPON_PRODUCT,   j.getString(Define.KEY_CUPON_PRODUCT));

@@ -133,7 +133,7 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
                             public void run() {
                                 photoMakerdialog.dismiss();
                                 btnSend.setVisibility(View.VISIBLE);
-                                tvSize.setText(FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes");
+                                tvSize.setText(alSendFileInfo.size() + " Files\n" + FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes");
                             }
                         });
                     }
@@ -142,6 +142,7 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
             }
         } else {
             setImageFIleInfo();
+
         }
     }
     private boolean ImageConvertingProcess(){
@@ -174,10 +175,8 @@ public class SendImageActivity extends BaseActivity implements View.OnClickListe
 
             }
         }
-        //Log.d(TAG, "Total Size :" + FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes " + alSendFileInfo.size() + " Files");
-        tvSize.setText(FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes");
-        btnSend.setEnabled(true);
-        //tvPath.setText(ServerPath);
+        tvSize.setText(alSendFileInfo.size() + " Files\n" + FileUtils.customFormat("###,###,###", TotalSizeofFiles) + " Bytes");
+        btnSend.setVisibility(View.VISIBLE);
     }
 
     private final int GOTO_ORDERINPUT = 0x10;

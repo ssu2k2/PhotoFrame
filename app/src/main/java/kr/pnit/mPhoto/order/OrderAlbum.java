@@ -693,6 +693,10 @@ public class OrderAlbum extends BaseActivity implements View.OnClickListener {
 
                 } else {
                     Log.w(TAG, "Image Resolution(CAL) W: " + (100 * albumInfo.ratio_width) + " H :" + (100 * albumInfo.ratio_height));
+
+                    if(albumInfo.ratio_width > 10) albumInfo.ratio_width /= 10;
+                    if(albumInfo.ratio_height > 10) albumInfo.ratio_height /= 10;
+
                     if(!checkImageSize(100 * albumInfo.ratio_width,
                             100 * albumInfo.ratio_height, mImageCropUri)){
                         Toast.makeText(this, "이미지가 작습니다. 제품의 품질이 저하될 수 있으니 큰 사진으로 교체하거나 사진을 크게 다시 잘라주세요.", Toast.LENGTH_LONG).show();

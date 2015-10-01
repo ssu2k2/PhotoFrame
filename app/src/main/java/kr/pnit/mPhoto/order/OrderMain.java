@@ -76,7 +76,7 @@ public class OrderMain extends BaseActivity {
                 .considerExifParams(true)
                 .build();
 
-        cupon = getStringPreference(Define.KEY_CUPON_NUM);
+        cupon = getStringPreference(Define.KEY_CUPON_PRODUCT);
         //Log.d(TAG, "CUPON NUMBER : " + cupon);
         // Get singleton instance of ImageLoader
         imageLoader = ImageLoader.getInstance();

@@ -127,7 +127,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
         Serializable intentListData = getIntent().getSerializableExtra("ALFrameInfo");
         alFrameList = (ArrayList<FrameInfo>) intentListData;
 
-        cupon = getStringPreference(Define.KEY_CUPON_NUM);
+        cupon = getStringPreference(Define.KEY_CUPON_PRODUCT);
 
 
         mOrderInfo = new OrderInfo();
@@ -407,7 +407,8 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
             if(jObject.getString("RESULT").equals("SUCCESS")) {
                 //GoToPayProcess();
                 orderNumber = jObject.getString("order_sum_id");
-                saveStringPreference(Define.KEY_CUPON_NUM, "");
+                saveStringPreference(Define.KEY_CUPON_PRODUCT, "");
+                saveStringPreference(Define.KEY_CUPON, "");
                 goToSendImage();
             } else {
                 Toast.makeText(this, "주문 전송에 실패하였습니다.", Toast.LENGTH_LONG).show();
@@ -450,7 +451,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
         alParam.add(new ParamVO("product_cover", Album_sub_code));
 
         if(cupon.toLowerCase().contains(Album_code.toLowerCase())){
-            alParam.add(new ParamVO("c_cupun", cupon));
+            alParam.add(new ParamVO("c_cupun",getStringPreference(Define.KEY_CUPON)));
         }
 
         try {

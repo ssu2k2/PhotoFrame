@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -48,23 +49,26 @@ public class PhotoAdder {
 
         // get Image Width, Height
         getImageSize(alFileInfo.get(0).pageImage);
-
+        int count = alFileInfo.size();
+        String firstFile = "";
+        String secondFile = "";
         for(int i = 0; i < alFileInfo.size() ; i+=2){
             String resultFile = null;
-            if(alFileInfo.get(i+1) != null) {
-                String firstFile = alFileInfo.get(i).pageImage;
-                String secondFile = alFileInfo.get(i + 1).pageImage;
-                Log.d(TAG, "First : " + firstFile + " Second:" + secondFile);
-                resultFile = DrawBitmapToCanvas(image_width, image_height, firstFile, secondFile, i);
-                if (resultFile != null) {
-                    Log.d(TAG, "SUCCESS : " + resultFile);
-                    alResultFileInfo.add(resultFile);
-                }else
-                    return false;
-            } else {
-                alResultFileInfo.add(alFileInfo.get(i).pageImage);
-            }
+            if(count > (i+1)) {
+                firstFile = alFileInfo.get(i).pageImage;
+                secondFile = alFileInfo.get(i + 1).pageImage;
 
+            } else {
+                firstFile = alFileInfo.get(i).pageImage;
+                secondFile = "";
+            }
+            Log.d(TAG, "First : " + firstFile + " Second:" + secondFile);
+            resultFile = DrawBitmapToCanvas(image_width, image_height, firstFile, secondFile, i);
+            if (resultFile != null) {
+                Log.d(TAG, "SUCCESS : " + resultFile);
+                alResultFileInfo.add(resultFile);
+            }else
+                return false;
         }
         return true;
     }
@@ -95,7 +99,7 @@ public class PhotoAdder {
         Bitmap bitmap = Bitmap.createBitmap(width * 2, height, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(bitmap);
-
+        canvas.drawColor(Color.WHITE);
         Bitmap bmImage = null;
         Bitmap bmResize = null;
         Paint paint = new Paint();
@@ -125,7 +129,7 @@ public class PhotoAdder {
                     }
                 } else {
                     //Toast.makeText(mContext, "이미지가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                    return null;
+                    //return null;
                 }
 
         }

@@ -33,7 +33,7 @@ public class Define {
     public static final String KEY_OW_ZIP = "ow_zip";
     public static final String KEY_OW_ADDR = "ow_addr";
 
-    public static final String KEY_CUPON_NUM = "c_cupun";
+    public static final String KEY_CUPON = "c_cupun";
     public static final String KEY_CUPON_PRODUCT = "c_product_code";
 
     public static final int TYPE_NORMAL = 0;

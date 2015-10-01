@@ -183,7 +183,7 @@ public class HttpManager {
 		try {
 
             String url = sb.toString().replaceAll(" ", "%20");
-			//Log.d(CLASSNAME, "URL:" + url);
+			Log.d(CLASSNAME, "URL:" + url);
 			request.setURI(new URI(url));
 			HttpResponse httpResponse = client.execute(request);
 			httpEntity = httpResponse.getEntity();

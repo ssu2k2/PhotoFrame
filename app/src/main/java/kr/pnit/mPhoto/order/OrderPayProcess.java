@@ -100,7 +100,8 @@ public class OrderPayProcess extends BaseActivity implements View.OnClickListene
 
         if((mOrderInfo.delevery_price + mOrderInfo.good_price) == 0) {
             // 쿠폰 사용에 대한 서버 요청
-            saveStringPreference(Define.KEY_CUPON_NUM, "");
+            saveStringPreference(Define.KEY_CUPON_PRODUCT, "");
+            saveStringPreference(Define.KEY_CUPON, "");
             viewPayResult(true);
         } else {
             //기본 페이지
