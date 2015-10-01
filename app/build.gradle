@@ -8,8 +8,8 @@ android {
         applicationId "kr.pnit.photoframe"
         minSdkVersion 16
         targetSdkVersion 20
-        versionCode 3
-        versionName "1.02"
+        versionCode 4
+        versionName "1.2"
     }
     signingConfigs {
         release {

@@ -3,6 +3,7 @@ package kr.pnit.mPhoto.loading;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class Join extends BaseActivity implements View.OnClickListener{
     String id;
     String cupon;
     String SMS_Msg = "";
+    String appVersion = "";
 
     int req = REQ_ID;
     int mode = MODE_GET_MSG;
@@ -74,6 +76,14 @@ public class Join extends BaseActivity implements View.OnClickListener{
             etShopCode.setText(id);
         }
 
+        String version = "";
+        try {
+            PackageInfo i = getPackageManager().getPackageInfo(getPackageName(), 0);
+            version = i.versionName;
+        } catch(PackageManager.NameNotFoundException e) {
+
+        }
+        Log.d(TAG, "App Version : " + version);
         prepareNetworking(Define.HTTP_GET_SMS, "GET");
 
     }
@@ -140,6 +150,7 @@ public class Join extends BaseActivity implements View.OnClickListener{
             JSONObject j = new JSONObject(json);
             if (j.getString("RESULT").equals("SUCCESS")) {
                 SMS_Msg = j.getString("SNS_url");
+                appVersion = j.getString("Ver_Num");
             } else {
                 return false;
             }
