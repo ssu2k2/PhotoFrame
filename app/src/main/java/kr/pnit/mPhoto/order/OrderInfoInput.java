@@ -470,7 +470,7 @@ public class OrderInfoInput extends BaseActivity  implements View.OnClickListene
             if(result.indexOf("{") > 0) {
                 String r = result.substring(result.indexOf("{"));
                 if( r.length() > 0) {
-                    Log.d(TAG, "Result(JSON):" + r);
+                    //Log.d(TAG, "Result(JSON):" + r);
                     parseJson(r);
                     return;
                 }
