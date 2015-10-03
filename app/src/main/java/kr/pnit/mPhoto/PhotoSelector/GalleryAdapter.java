@@ -36,6 +36,7 @@ public class GalleryAdapter extends ArrayAdapter<ImageInfo> {
     private Handler mHandler;
 
     public static final int HANDLER_MOVE = 0x01;
+    public static final int HANDLER_UPDATE = 0x02;
 
     public class Holder {
         TextView tvTitle;
@@ -125,6 +126,11 @@ public class GalleryAdapter extends ArrayAdapter<ImageInfo> {
                         i.isSelect = false;
                     } else {
                         i.isSelect = true;
+                    }
+                    if(mHandler != null) {
+                        Message msg = new Message();
+                        msg.what = HANDLER_UPDATE;
+                        mHandler.sendMessage(msg);
                     }
                     notifyDataSetChanged();
                 }

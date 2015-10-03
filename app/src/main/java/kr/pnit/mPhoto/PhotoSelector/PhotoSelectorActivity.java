@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import kr.pnit.mPhoto.R;
 
@@ -32,6 +33,9 @@ public class PhotoSelectorActivity extends Activity implements
     Button btnOk;
     Button btnCancel;
 
+    TextView tvSelectedPhotoCount;
+    TextView tvSelectedPhotoInfo;
+
     GridView gvPhoto;
     GalleryAdapter galleryAdapter;
     String currPath = "";
@@ -43,6 +47,15 @@ public class PhotoSelectorActivity extends Activity implements
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case GalleryAdapter.HANDLER_UPDATE:
+                    int count = 0;
+                    for(int i = 0; i < alSelectedImageInfo.size(); i++){
+                        if(alSelectedImageInfo.get(i).isSelect) {
+                            count++;
+                        }
+                    }
+                    tvSelectedPhotoCount.setText("선택된 사진 : " + count + "장");
+                    break;
                 case GalleryAdapter.HANDLER_MOVE:
                     String external = Environment.getExternalStorageDirectory().getAbsolutePath();
                     String folder = (String)msg.obj;
@@ -66,6 +79,7 @@ public class PhotoSelectorActivity extends Activity implements
                             folder = folder.substring(1);
                         getImageFileList( external + "/"+ folder);
                     }
+                    tvSelectedPhotoCount.setText("선택된 사진 : 0장");
                     break;
             }
         }
@@ -202,6 +216,10 @@ public class PhotoSelectorActivity extends Activity implements
     }
 
     private void initLayout() {
+
+        tvSelectedPhotoCount = (TextView)findViewById(R.id.tvSelectedPhotoCount);
+        tvSelectedPhotoInfo = (TextView)findViewById(R.id.tvSelectedPhotoInfo);
+
         btnOk  = (Button)findViewById(R.id.btnOk);
         btnCancel = (Button)findViewById(R.id.btnCancel);
         btnOk.setOnClickListener(this);
