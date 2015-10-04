@@ -59,6 +59,8 @@
     <string name="order_number">주문번호</string>
     <string name="order_name">주문자</string>
     <string name="order_goods">주문제품</string>
+    <string name="order_price">가격</string>
+    <string name="order_status">현재상태</string>
 
     <string name="net_dialog_title">서버 요청중</string>
     <string name="net_dialog_context">서버에 정보 요청중입니다...</string>

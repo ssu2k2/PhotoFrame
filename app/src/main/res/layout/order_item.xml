@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="60dp"
     android:orientation="horizontal">
     <TextView
         android:id="@+id/tvDate"
-        android:layout_width="80dp"
-        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_width="65dp"
+        android:layout_height="60dp"
         android:gravity="center"
         android:text="DATE"/>
     <TextView
         android:id="@+id/tvName"
         android:layout_width="100dp"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:gravity="center"
+        android:visibility="gone"
         android:text="NUM"/>
     <TextView
         android:id="@+id/tvGoods"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="90dp"
+        android:layout_height="60dp"
         android:gravity="center"
-        android:layout_weight="1"
         android:text="GOODS"/>
-
+    <TextView
+        android:id="@+id/tvPrice"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="Price"/>
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="Status"/>
+    <Button
+        android:id="@+id/btnOrderCancel"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ordercancle_btn"
+        />
 </LinearLayout>

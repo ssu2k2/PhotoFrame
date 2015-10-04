@@ -2,8 +2,11 @@ package kr.pnit.mPhoto.order;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,12 +41,50 @@ public class OrderList extends BaseActivity implements View.OnClickListener {
     ListView lvOrder;
     OrderListAdapter laOrder;
 
-    ArrayList<OrderInfo> alOrderInfo;
-
     String user_id;
     String order_name = null;
     String order_hp = null;
 
+    boolean isCancel = false;
+    OrderData CancelInfo;
+
+    private static final int HANDLE_ORDER_CANCEL = 0x01;
+    private static final int HANDLE_REQUEST_ORDER = 0x02;
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch(msg.what){
+                case HANDLE_ORDER_CANCEL:
+                    int item = (int)msg.arg1;
+                    CancelInfo = alOrderData.get(item);
+                    Log.d(TAG, "Order Cancel : " + CancelInfo.code + " " + CancelInfo.product + " " + CancelInfo.price);
+                    String txt = "상품 : " + CancelInfo.product + "\n가격 : " + CancelInfo.price + "\n상품을 취소 하시겠습니까?";
+                    AlertDialog.Builder alert_confirm = new AlertDialog.Builder(OrderList.this);
+                    alert_confirm.setMessage(txt).setCancelable(false).setPositiveButton("취소요청",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 'YES'
+                                    isCancel = true;
+                                    prepareNetworking(Define.HTTP_ORDER_CANCEL, "GET");
+                                }
+                            }).setNegativeButton("아니요",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 'No'
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = alert_confirm.create();
+                    alert.show();
+                    break;
+                case HANDLE_REQUEST_ORDER:
+                    requestList();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +156,9 @@ public class OrderList extends BaseActivity implements View.OnClickListener {
         public String date;
         public String name;
         public String product;
+        public String price;
+        public String status;
+        public String code;
     }
     ArrayList<OrderData> alOrderData;
     @Override
@@ -134,18 +178,30 @@ public class OrderList extends BaseActivity implements View.OnClickListener {
             this.items = items;
         }
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(R.layout.order_item, null);
             }
 
-            OrderData orderData = items.get(position);
+            final OrderData orderData = items.get(position);
             if (orderData != null) {
                 ((TextView)v.findViewById(R.id.tvDate)).setText(orderData.date);
                 ((TextView)v.findViewById(R.id.tvName)).setText(orderData.name);
                 ((TextView)v.findViewById(R.id.tvGoods)).setText(orderData.product);
+                ((TextView)v.findViewById(R.id.tvPrice)).setText(orderData.price + "원");
+                ((TextView)v.findViewById(R.id.tvStatus)).setText(orderData.status);
+                ((Button)v.findViewById(R.id.btnOrderCancel)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Cancel
+                        Message msg = new Message();
+                        msg.what = HANDLE_ORDER_CANCEL;
+                        msg.arg1 = position;
+                        mHandler.sendMessage(msg);
+                    }
+                });
             }
             return v;
         }
@@ -154,6 +210,7 @@ public class OrderList extends BaseActivity implements View.OnClickListener {
 
     private void parseJson(String json) {
         try{
+            alOrderData.clear();
             JSONObject jObject = new JSONObject(json);
             JSONArray jArray = jObject.getJSONArray("product");
             for(int i = 0; i < jArray.length() ; i++) {
@@ -163,6 +220,8 @@ public class OrderList extends BaseActivity implements View.OnClickListener {
                 order.date = j.getString("Order_datetime");
                 order.name = j.getString("order_name");
                 order.product = j.getString("product_name_value");
+                order.price = j.getString("P_price");
+                order.code  = j.getString("order_sum_id");
 
                 alOrderData.add(order);
             }
@@ -190,9 +249,14 @@ public class OrderList extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void makeParams() {
-        alParam.add(new ParamVO("userID",user_id));
-        alParam.add(new ParamVO("order_name",order_name));
-        alParam.add(new ParamVO("order_hp",order_hp));
+        alParam.clear();
+        if(isCancel){
+            alParam.add(new ParamVO("order_sum_id",CancelInfo.code));
+        } else {
+            alParam.add(new ParamVO("userID",user_id));
+            alParam.add(new ParamVO("order_name",order_name));
+            alParam.add(new ParamVO("order_hp",order_hp));
+        }
     }
 
     @Override
@@ -202,7 +266,14 @@ public class OrderList extends BaseActivity implements View.OnClickListener {
                 String r = result.substring(result.indexOf("{"));
                 if( r.length() > 0) {
                     Log.d(TAG, "Result(JSON):" + r);
-                    parseJson(r);
+                    if(isCancel){
+                        isCancel = false;
+                        CancelInfo = null;
+                        Toast.makeText(OrderList.this, "주문이 취소되었습니다.", Toast.LENGTH_LONG).show();
+                        mHandler.sendEmptyMessage(HANDLE_REQUEST_ORDER);
+                    } else {
+                        parseJson(r);
+                    }
                     return;
                 }
             }
