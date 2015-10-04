@@ -37,6 +37,7 @@ public class Join extends BaseActivity implements View.OnClickListener{
     private final int REQ_ID  = 0x102;
     private final int REQ_CUP = 0x103;
     Button btnOk;
+    Button btnCupon;
     Button btnSendSMS;
 
     EditText etShopCode;
@@ -65,8 +66,21 @@ public class Join extends BaseActivity implements View.OnClickListener{
         btnSendSMS = (Button)findViewById(R.id.btnSendSMS);
         btnSendSMS.setOnClickListener(this);
 
+
         etShopCode = (EditText)findViewById(R.id.etShop);
         etCupon = (EditText)findViewById(R.id.etCupon);
+
+        btnCupon = (Button)findViewById(R.id.btnCuponInput);
+        btnCupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(etCupon.getVisibility() == View.VISIBLE){
+                    etCupon.setVisibility(View.INVISIBLE);
+                } else {
+                    etCupon.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         saveStringPreference(Define.KEY_CUPON,   "");       // Clear Cupon Number
         saveStringPreference(Define.KEY_CUPON_PRODUCT,   "");   // Clear Cupon Number
@@ -74,6 +88,11 @@ public class Join extends BaseActivity implements View.OnClickListener{
         id = getStringPreference(Define.KEY_PRE_ID);
         if(id.trim().length() > 0) {
             etShopCode.setText(id);
+            etShopCode.setVisibility(View.GONE);
+            etCupon.setVisibility(View.INVISIBLE);
+        } else {
+            etShopCode.setVisibility(View.VISIBLE);
+            etCupon.setVisibility(View.GONE);
         }
 
         String version = "";
